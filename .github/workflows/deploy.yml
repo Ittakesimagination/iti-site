@@ -32,7 +32,7 @@ jobs:
         run: npm run build
 
       - name: Export static site (out/)
-        run: npx next export -o out
+        run: npx next export
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

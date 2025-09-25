@@ -77,12 +77,13 @@ export const siteConfig: SiteConfig = {
       }
     ]
   },
-  contact: {
-    title: "Contact",
-    subtitle:
-      "Questions, roast bookings, or media inquiries—drop a line. (Auth required; we’ll sign you in anonymously to protect the inbox.)",
-    successMessage: "Thanks! Your message landed. We’ll get back to you.",
-    errorMessage: "Hm, something went sideways. Please try again."
-  },
+  contact: {  
+    heading: "Contact",  
+    subheading: "Questions, roast bookings, or media inquiries",  
+    description: "Drop a line and we’ll get back to you. Auth required; we’ll sign you in anonymously to protect the inbox.",  
+    successMessage: "Thanks! Your message landed. We’ll get back to you."  
+  },  
+
   theme: { brand: "#0B3D91", accent: "#C21807" }
 };
+

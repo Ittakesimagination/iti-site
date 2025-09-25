@@ -2,31 +2,53 @@ name: Deploy to Firebase Hosting
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
+    # Make your NEXT_PUBLIC_* env vars available to Next.js during build
+    env:
+      NEXT_PUBLIC_FIREBASE_API_KEY: ${{ 
+secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ 
+secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ 
+secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+      NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ 
+secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ 
+secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+      NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID 
+}}
+      NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ 
+secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Install deps
+      - name: Install deps (CI)
         run: npm ci
 
-      - name: Build (Next.js → out/)
+      - name: Build (Next.js)
         run: npm run build
 
-      - name: Deploy to Firebase Hosting (live)
+      - name: Export static site (out/)
+        run: npx next export -o out
+
+      - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ITTakesImagination }}
-          channelId: live
-          projectId: ittakesimagination-main
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ 
+secrets.FIREBASE_SERVICE_ACCOUNT_ITTakesImagination }}"
+          projectId: "ittakesimagination-main"
+          channelId: "live"
 

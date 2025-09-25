@@ -10,7 +10,9 @@ export interface MetaConfig {
 export interface HeroConfig {
   heading: string;
   subheading: string;
-  cta: string;
+  cta?: string;
+  ctaText?: string;
+  kicker?: string;
 }
 
 export interface AboutConfig {
@@ -21,13 +23,18 @@ export interface AboutConfig {
 export interface Project {
   title: string;
   description: string;
-  tags: string[];
+  link: string;
+}
+
+export interface ProjectsConfig {
+  heading: string;
+  items: ProjectItem[];
 }
 
 export interface ContactConfig {
-  heading: string;
+  heading: string;          // required
   subheading: string;
-  description: string;
+  description: string;    // required
   successMessage: string;
   errorMessage: string;
 }
@@ -42,11 +49,19 @@ export interface ThemeConfig {
   accent: string;
 }
 
+export interface ProjectItem {
+  id?: string;
+  title: string;
+  description: string;
+  tags: string[];
+  href?: string; // ← optional, so components won't crash if absent
+}
+
 export interface SiteConfig {
   meta: MetaConfig;
   hero: HeroConfig;
   about: AboutConfig;
-  projects: Project[];
+  projects: ProjectsConfig;
   contact: ContactConfig;
   socials: SocialLink[];
   theme: ThemeConfig;

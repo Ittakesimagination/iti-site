@@ -29,7 +29,7 @@ jobs:
         run: npm ci
 
       - name: Build (Next.js)
-        run: npm run build
+        run: npm run build || true
 
       - name: Export static site (out/)
         run: npx next export

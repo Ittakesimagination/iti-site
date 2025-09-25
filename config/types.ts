@@ -1,54 +1,54 @@
-export interface SiteMeta {
+// config/types.ts
+
+export interface MetaConfig {
   title: string;
   description: string;
   url: string;
   ogImage: string;
-  twitter: string;
 }
-export interface SocialLink {
-  label: string;
-  href: string;
-  ariaLabel?: string;
-}
+
 export interface HeroConfig {
-  kicker: string;
-  headline: string;
-  subhead: string;
-  ctaLabel: string;
-  ctaHref: string;
+  heading: string;
+  subheading: string;
+  cta: string;
 }
+
 export interface AboutConfig {
-  title: string;
-  body: string[];
+  heading: string;
+  body: string;
 }
-export interface ProjectItem {
-  id: string;
+
+export interface Project {
   title: string;
-  summary: string;
-  href: string;
+  description: string;
   tags: string[];
-  image?: string;
 }
-export interface ProjectsConfig {
-  title: string;
-  items: ProjectItem[];
-}
+
 export interface ContactConfig {
-  title: string;
-  subtitle: string;
+  heading: string;
+  subheading: string;
+  description: string;
   successMessage: string;
   errorMessage: string;
 }
-export interface ThemeTokens {
+
+export interface SocialLink {
+  name: string;
+  href: string;
+}
+
+export interface ThemeConfig {
   brand: string;
   accent: string;
 }
+
 export interface SiteConfig {
-  meta: SiteMeta;
-  socials: SocialLink[];
+  meta: MetaConfig;
   hero: HeroConfig;
   about: AboutConfig;
-  projects: ProjectsConfig;
+  projects: Project[];
   contact: ContactConfig;
-  theme: ThemeTokens;
+  socials: SocialLink[];
+  theme: ThemeConfig;
 }
+

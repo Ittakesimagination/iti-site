@@ -31,9 +31,6 @@ jobs:
       - name: Build (Next.js)
         run: npm run build || true
 
-      - name: Export static site (out/)
-        run: npx next export
-
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:

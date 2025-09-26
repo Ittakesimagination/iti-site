@@ -1,20 +1,16 @@
+// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
-
-  // Export to /out for Firebase Hosting
+  // Tells Next to generate /out at build time (replaces `next export`)
   output: "export",
 
-  // Skip ESLint during production build (we’ll fix types later)
-  eslint: { ignoreDuringBuilds: true },
-
+  // Keep dev fast; we already switched CI to skip lint/type checks
   experimental: {
     optimizePackageImports: ["framer-motion", "zustand", "@headlessui/react"],
   },
 
-  // Remove custom headers for static export to avoid warnings
-  // (Firebase Hosting will handle caching headers from firebase.json)
+  images: { unoptimized: true }, // recommended for static export
 };
 
 export default nextConfig;

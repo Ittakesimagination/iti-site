@@ -28,8 +28,20 @@ jobs:
       - name: Install deps (CI)
         run: npm ci
 
-      - name: Build (Next.js)
-        run: npm run build || true
+      - name: Build (Next.js -> out/)
+        run: npm run build
+
+      - name: Show build outputs
+        run: |
+          ls -la
+          ls -la out
+
+      - name: Guard: ensure out/ exists
+        run: |
+          if [ ! -d "out" ]; then
+            echo "::error ::out/ directory not found. Did next.config.ts include output: 'export'?"
+            exit 1
+          fi
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

@@ -1,65 +1,126 @@
-"use client";
 import React from "react";
-import { motion } from "framer-motion";
-import { type HeroConfig } from "@/config/types";
 
-interface Props {
-  config: HeroConfig; // heading, subheading, cta (kicker optional)
-  socials?: { name: string; href: string }[];
+/**
+ * Accept multiple shapes so it works with config/types without fighting TS.
+ * We normalize everything inside the component.
+ */
+
+type StatInput = {
+  label?: string;   // component-native
+  name?: string;    // config/types may use "name"
+  value: string | number;
+};
+
+type HeroConfigInput = {
+  // your config might use "title" or "heading"
+  title?: string;
+  heading?: string;
+
+  subtitle?: string;
+
+  // primary CTA variants
+  ctaText?: string;
+  ctaHref?: string;
+  // sometimes teams use "cta" objects; add if you need later
+  // cta?: { text?: string; href?: string };
+
+  stats?: StatInput[];
+};
+
+type SocialLinkInput = {
+  label?: string;  // component-native
+  name?: string;   // config/types often uses "name"
+  href?: string;   // component-native
+  url?: string;    // config/types often uses "url"
+  // icon?: React.ReactNode;
+};
+
+export interface HeroProps {
+  /** Direct props (optional if you pass `config`) */
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  onCtaClick?: () => void;
+  stats?: Array<{ label: string; value: string | number }>;
+
+  /** Looser config accepted from config/types (e.g., siteConfig.hero) */
+  config?: HeroConfigInput;
+
+  /** Looser socials accepted from config/types (e.g., siteConfig.socials) */
+  socials?: SocialLinkInput[];
+
+  children?: React.ReactNode;
 }
 
-export default function Hero({ config, socials = [] }: Props) {
-  const ctaLabel = config.cta ?? config.ctaText ?? "Watch Clips"; // tolerant to either key
-  const { heading, subheading } = config;
+function normalizeStat(s: StatInput): { label: string; value: string | number } {
+  return {
+    label: (s.label ?? s.name ?? "").toString(),
+    value: s.value,
+  };
+}
+
+function normalizeSocial(s: SocialLinkInput): { label: string; href: string } {
+  return {
+    label: (s.label ?? s.name ?? "").toString(),
+    href: (s.href ?? s.url ?? "#").toString(),
+  };
+}
+
+export default function Hero({
+  config,
+  title,
+  subtitle,
+  ctaText,
+  ctaHref,
+  onCtaClick,
+  stats,
+  socials,
+  children,
+}: HeroProps) {
+  // Normalize config + props: direct props override config
+  const mergedTitle = title ?? config?.title ?? config?.heading ?? "";
+  const mergedSubtitle = subtitle ?? config?.subtitle;
+
+  const mergedCtaText = ctaText ?? config?.ctaText;
+  const mergedCtaHref = ctaHref ?? config?.ctaHref;
+
+  const mergedStats = (stats ?? config?.stats)?.map(normalizeStat);
+  const normalizedSocials = socials?.map(normalizeSocial);
 
   return (
-    <section id="hero" className="section pt-8 sm:pt-14">
-      <div className="flex items-start justify-between gap-6">
-        <div className="max-w-3xl">
-          {/* Optional kicker — only render if provided in future */}
-          {"kicker" in config && (config as any).kicker ? (
-            <p className="kicker">{(config as any).kicker}</p>
-          ) : null}
+    <section>
+      <h1>{mergedTitle}</h1>
 
-          <motion.h1
-            className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            {heading}
-          </motion.h1>
+      {mergedSubtitle && <p>{mergedSubtitle}</p>}
 
-          <p className="mt-3 text-lg text-neutral-700 dark:text-neutral-300">
-            {subheading}
-          </p>
+      {mergedCtaText && (
+        <a href={mergedCtaHref} onClick={onCtaClick}>
+          {mergedCtaText}
+        </a>
+      )}
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href="#projects"
-              className="rounded-xl bg-amber-400 px-4 py-2 font-semibold text-black shadow 
-hover:translate-y-px transition"
-            >
-              {ctaLabel}
-            </a>
-            {socials.map((s) => (
-              <a
-                key={s.name}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-xl border border-neutral-300 px-3 py-2 text-sm 
-hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
-              >
-                {s.name}
-              </a>
-            ))}
-          </div>
+      {mergedStats?.length ? (
+        <div>
+          {mergedStats.map((s) => (
+            <div key={`${s.label}-${s.value}`}>
+              <strong>{s.value}</strong> <span>{s.label}</span>
+            </div>
+          ))}
         </div>
+      ) : null}
 
-        {/* Right rail spacer so banner doesn’t overlap hero */}
-        <div className="hidden md:block w-[220px]" aria-hidden="true" />
-      </div>
+      {normalizedSocials?.length ? (
+        <nav>
+          {normalizedSocials.map((s) => (
+            <a key={s.href} href={s.href} target="_blank" rel="noreferrer">
+              {s.label || s.href}
+            </a>
+          ))}
+        </nav>
+      ) : null}
+
+      {children}
     </section>
   );
 }

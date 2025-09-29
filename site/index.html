@@ -1,134 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>It Takes Imagination</title>
-  <meta name="description" content="No More Bullshit Excuses. From dumpster gold to empire. Join the Nutwork." />
+  <title>It Takes Imagination™</title>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="It Takes Imagination" />
-  <meta property="og:description" content="No More Bullshit Excuses. From dumpster gold to empire. Join the Nutwork." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/og.png" />
-  <meta property="og:url" content="https://ittakesimagination-main.web.app" />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
+  <!-- Icons -->
   <link rel="icon" href="images/favicon-transparent.png" type="image/png" />
   <link rel="apple-touch-icon" href="images/favicon-transparent.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="app.js?v=17"></script>
+
+  <!-- Styles & Script -->
+<link rel="stylesheet" href="styles.css?v=20250929a" />
+<script defer src="app.js?v=20250929a"></script>
+
+  <!-- Basic meta -->
+  <meta name="description" content="Judge S.Q.U.I.R.R.E.L.™ & The Weil 1™ welcome you to The Nutwork—truth, laughs, zero fluff." />
 </head>
 <body>
-  <!-- Thank-you banner (slides down when ?sent=1) -->
-  <div id="thank-you-banner" class="banner hidden">
-    ✅ Thanks! Your message has been sent.
-  </div>
 
-  <!-- Header / Nav -->
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="#top">It Takes Imagination</a>
-      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
-      <nav id="site-nav" class="nav">
-        <a href="#about">About</a>
-        <a href="#products">Products</a>
-        <a href="#contact">Contact</a>
-        <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://rumble.com/c/YOUR_CHANNEL" target="_blank" rel="noreferrer">Rumble</a>
-        <a id="shop-link" class="cta" href="https://YOUR-STORE-URL.com" target="_blank" rel="noreferrer">Shop</a>
+  <!-- HERO: video background + modal greeting -->
+  <header class="hero-video">
+    <video class="hero-bg" playsinline autoplay muted loop poster="images/hero-poster.jpg">
+      <source src="videos/hero.webm" type="video/webm" />
+      <source src="videos/hero.mp4" type="video/mp4" />
+    </video>
+
+    <div class="hero-overlay">
+      <nav class="nav">
+        <a class="brand" href="/">It Takes Imagination™</a>
+        <ul class="menu">
+          <li><a href="#podcast">Podcast</a></li>
+          <li><a href="#merch">Merch</a></li>
+          <li><a href="#join">Join</a></li>
+        </ul>
       </nav>
+
+      <section class="hero-inner">
+        <div class="hero-copy">
+          <h1>Driven by a Dream, a Dumpster, & a Damn Good Sense of Humor.</h1>
+          <p>Judge S.Q.U.I.R.R.E.L.™ & The Weil 1™ welcome you to the Nutwork.</p>
+          <div class="cta-row">
+            <button class="btn primary" data-open-intro>Play Greeting ▶</button>
+            <a href="#join" class="btn ghost">Join The Nutwork™</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Modal for greeting with audio -->
+    <div class="modal" id="introModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-intro></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Welcome from S.Q.U.I.R.R.E.L. & The Weil 1">
+        <button class="modal-close" title="Close" aria-label="Close" data-close-intro>✕</button>
+        <video id="introVideo" controls playsinline preload="metadata">
+          <source src="videos/intro.mp4" type="video/mp4" />
+        </video>
+      </div>
     </div>
   </header>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container">
-        <h1>No More Bullshit Excuses</h1>
-        <p class="sub">From dumpster gold to empire. Join the Nutwork.</p>
-        <div class="hero-cta">
-          <a class="btn" href="#products">See Products</a>
-          <a class="btn ghost" href="#contact">Say Hello</a>
-        </div>
-      </div>
+  <!-- Placeholder sections to scroll to later -->
+  <main>
+    <section id="podcast" class="pad">
+      <h2>Podcast</h2>
+      <p>Embed or link your latest episode here.</p>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="section">
-      <div class="container grid-2">
-        <div>
-          <h2>Our Story</h2>
-          <p>Ultra-competitive, battle-tested, and funny as hell. We turn grit into goods and satire into sales. Judge S.Q.U.I.R.R.E.L. presiding.</p>
-          <ul class="bullets">
-            <li>Animated content & roast shorts</li>
-            <li>Execution Formula (hero product)</li>
-            <li>Signature merch & jewelry</li>
-          </ul>
-        </div>
-        <div class="card">
-          <img src="images/hero.png" alt="Brand hero" />
-        </div>
-      </div>
+    <section id="merch" class="pad alt">
+      <h2>Merch</h2>
+      <p>Link to your store or feature bestsellers.</p>
     </section>
 
-    <!-- PRODUCTS -->
-    <section id="products" class="section alt">
-      <div class="container">
-        <h2>Featured Products</h2>
-        <div class="grid-3">
-          <article class="product">
-            <img src="images/execution-formula.png" alt="Execution Formula" />
-            <h3>Execution Formula</h3>
-            <p>Get it done, every time. The mindset & system.</p>
-            <a class="btn small" href="https://YOUR-STORE-URL.com/products/execution-formula" target="_blank" rel="noreferrer">View</a>
-          </article>
-          <article class="product">
-            <img src="images/tshirt.png" alt="NMBSE T-Shirt" />
-            <h3>NMBSE T-Shirt</h3>
-            <p>Wear the movement. Comfort fit, bold print.</p>
-            <a class="btn small" href="https://YOUR-STORE-URL.com/products/nmbse-tee" target="_blank" rel="noreferrer">View</a>
-          </article>
-          <article class="product">
-            <img src="images/infinity-charm.png" alt="Infinity Necklace Charm" />
-            <h3>Infinity Necklace Charm</h3>
-            <p>Signature piece. Minimal, powerful, timeless.</p>
-            <a class="btn small" href="https://YOUR-STORE-URL.com/products/infinity-charm" target="_blank" rel="noreferrer">View</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <div class="container">
-        <h2>Contact</h2>
-
-        <!-- Native POST to Getform -->
-        <form id="contact-form" action="https://getform.io/f/bkkprlpb" method="POST" class="contact-form">
-          <div class="grid-2">
-            <input type="text" name="name" placeholder="Your name" required />
-            <input type="email" name="email" placeholder="you@example.com" required />
-          </div>
-          <textarea name="message" rows="5" placeholder="Say hello…" required></textarea>
-
-          <!-- Simple spam honeypot (leave empty): -->
-          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-
-          <button type="submit" class="btn">Send</button>
-          <p id="form-status" class="muted" aria-live="polite"></p>
-        </form>
-      </div>
+    <section id="join" class="pad">
+      <h2>Join The Nutwork™</h2>
+      <p>Drop a signup form or email capture here.</p>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <small>© <span id="year"></span> It Takes Imagination · No More Bullshit Excuses</small>
-    </div>
+  <footer class="footer">
+    <p>© <span id="year"></span> It Takes Imagination™ · No More Bullshit Excuses™</p>
   </footer>
+
 </body>
 </html>
 

@@ -28,6 +28,9 @@ jobs:
           ls -la
           test -d site && ls -la site || (echo "Missing site/ folder" && exit 1)
 
+      - name: Show firebase.json
+        run: cat firebase.json
+
       - name: Install Firebase CLI
         run: npm i -g firebase-tools
 

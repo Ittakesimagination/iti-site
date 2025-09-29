@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>It Takes Imagination</title>
+  <meta name="description" content="No More Bullshit Excuses. From dumpster gold to empire. Join the Nutwork." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="It Takes Imagination" />
+  <meta property="og:description" content="No More Bullshit Excuses. From dumpster gold to empire. Join the Nutwork." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/og.png" />
+  <meta property="og:url" content="https://ittakesimagination-main.web.app" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="images/favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js?v=17"></script>
+</head>
+<body>
+  <!-- Thank-you banner (slides down when ?sent=1) -->
+  <div id="thank-you-banner" class="banner hidden">
+    ✅ Thanks! Your message has been sent.
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#top">It Takes Imagination</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
+      <nav id="site-nav" class="nav">
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+        <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://rumble.com/c/YOUR_CHANNEL" target="_blank" rel="noreferrer">Rumble</a>
+        <a id="shop-link" class="cta" href="https://YOUR-STORE-URL.com" target="_blank" rel="noreferrer">Shop</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <h1>No More Bullshit Excuses</h1>
+        <p class="sub">From dumpster gold to empire. Join the Nutwork.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#products">See Products</a>
+          <a class="btn ghost" href="#contact">Say Hello</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container grid-2">
+        <div>
+          <h2>Our Story</h2>
+          <p>Ultra-competitive, battle-tested, and funny as hell. We turn grit into goods and satire into sales. Judge S.Q.U.I.R.R.E.L. presiding.</p>
+          <ul class="bullets">
+            <li>Animated content & roast shorts</li>
+            <li>Execution Formula (hero product)</li>
+            <li>Signature merch & jewelry</li>
+          </ul>
+        </div>
+        <div class="card">
+          <img src="images/hero.png" alt="Brand hero" />
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="section alt">
+      <div class="container">
+        <h2>Featured Products</h2>
+        <div class="grid-3">
+          <article class="product">
+            <img src="images/execution-formula.png" alt="Execution Formula" />
+            <h3>Execution Formula</h3>
+            <p>Get it done, every time. The mindset & system.</p>
+            <a class="btn small" href="https://YOUR-STORE-URL.com/products/execution-formula" target="_blank" rel="noreferrer">View</a>
+          </article>
+          <article class="product">
+            <img src="images/tshirt.png" alt="NMBSE T-Shirt" />
+            <h3>NMBSE T-Shirt</h3>
+            <p>Wear the movement. Comfort fit, bold print.</p>
+            <a class="btn small" href="https://YOUR-STORE-URL.com/products/nmbse-tee" target="_blank" rel="noreferrer">View</a>
+          </article>
+          <article class="product">
+            <img src="images/infinity-charm.png" alt="Infinity Necklace Charm" />
+            <h3>Infinity Necklace Charm</h3>
+            <p>Signature piece. Minimal, powerful, timeless.</p>
+            <a class="btn small" href="https://YOUR-STORE-URL.com/products/infinity-charm" target="_blank" rel="noreferrer">View</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>Contact</h2>
+
+        <!-- Native POST to Getform -->
+        <form id="contact-form" action="https://getform.io/f/bkkprlpb" method="POST" class="contact-form">
+          <div class="grid-2">
+            <input type="text" name="name" placeholder="Your name" required />
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </div>
+          <textarea name="message" rows="5" placeholder="Say hello…" required></textarea>
+
+          <!-- Simple spam honeypot (leave empty): -->
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <button type="submit" class="btn">Send</button>
+          <p id="form-status" class="muted" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> It Takes Imagination · No More Bullshit Excuses</small>
+    </div>
+  </footer>
+</body>
+</html>
+

@@ -1,5 +1,6 @@
 cd /Users/sirenaweil/Desktop/iti-site
 
+# Overwrite the file with VALID JSON only
 cat > firebase.json <<'JSON'
 {
   "hosting": {
@@ -11,6 +12,9 @@ cat > firebase.json <<'JSON'
 }
 JSON
 
-# sanity check locally
+# Sanity check JSON parses
+node -e "JSON.parse(require('fs').readFileSync('firebase.json','utf8')); console.log('firebase.json valid ✅')"
+
+# Show the file so you can visually confirm
 cat firebase.json
 

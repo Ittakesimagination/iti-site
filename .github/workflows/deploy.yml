@@ -1,4 +1,8 @@
-q# .github/workflows/deploy.yml
+cd /Users/sirenaweil/Desktop/iti-site
+
+mkdir -p .github/workflows
+
+cat > .github/workflows/deploy.yml <<'YAML'
 name: Deploy to Firebase Hosting
 
 on:
@@ -22,22 +26,12 @@ jobs:
         with:
           node-version: '20'
 
-      # Sanity check: the static folder must exist
-      - name: Confirm site/ folder
-        run: |
-          ls -la
-          test -d site && ls -la site || (echo "Missing site/ folder" && exit 1)
-
-      - name: Show firebase.json
-        run: cat firebase.json
-
       - name: Show firebase.json and layout
         run: |
           pwd
-          ls -la
           echo "----- firebase.json -----"
           cat firebase.json
-          echo "----- tree: site/ -----"
+          echo "----- site/ -----"
           ls -la site || true
 
       - name: Install Firebase CLI
@@ -51,4 +45,5 @@ jobs:
           firebase deploy --only "hosting:ittakesimagination-main" \
             --project ittakesimagination-main \
             --non-interactive --force
+YAML
 

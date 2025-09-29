@@ -1,14 +1,10 @@
-cd /Users/sirenaweil/Desktop/iti-site
-
-mkdir -p .github/workflows
-
-cat > .github/workflows/deploy.yml <<'YAML'
 name: Deploy to Firebase Hosting
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -45,5 +41,3 @@ jobs:
           firebase deploy --only "hosting:ittakesimagination-main" \
             --project ittakesimagination-main \
             --non-interactive --force
-YAML
-

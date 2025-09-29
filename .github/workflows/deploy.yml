@@ -1,4 +1,4 @@
-# .github/workflows/deploy.yml
+q# .github/workflows/deploy.yml
 name: Deploy to Firebase Hosting
 
 on:
@@ -30,6 +30,15 @@ jobs:
 
       - name: Show firebase.json
         run: cat firebase.json
+
+      - name: Show firebase.json and layout
+        run: |
+          pwd
+          ls -la
+          echo "----- firebase.json -----"
+          cat firebase.json
+          echo "----- tree: site/ -----"
+          ls -la site || true
 
       - name: Install Firebase CLI
         run: npm i -g firebase-tools

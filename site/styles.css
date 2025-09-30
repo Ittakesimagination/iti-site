@@ -83,20 +83,35 @@ html { scroll-behavior: smooth; }
 }
 
 /* MODAL */
-.modal { position: fixed; inset: 0; display: none; }
+.modal { position: fixed; inset: 0; display: none; z-index: 9999; }
 .modal[aria-hidden="false"] { display: block; }
 .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(2px); }
-.modal-dialog {
-  position: relative; z-index: 2; max-width: 900px; width: calc(100% - 32px);
-  margin: 5vh auto; background:#000; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,.5);
+.modal-dialog { 
+  position: relative; 
+  z-index: 2; 
+  max-width: 900px; 
+  width: calc(100% - 32px); 
+  margin: 5vh auto; 
+  background: #000; 
+  border-radius: 14px; 
+  overflow: hidden; 
+  box-shadow: 0 10px 40px rgba(0,0,0,.4); 
 }
-#introVideo { display:block; width:100%; height:auto; background:#000; }
-.modal-close {
-  position:absolute; top:8px; right:8px; border:0; background:#ffffff20; color:#fff;
-  width:36px; height:36px; border-radius: 999px; font-size: 18px; cursor:pointer;
+#introVideo { display:block; width:100%; height:auto; background:#000; border-radius: 12px; }
+.modal-close { 
+  position: absolute; 
+  top: 8px; 
+  right: 8px; 
+  border: 0; 
+  background: #ffffff20; 
+  color: #fff; 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 999px; 
+  font-size: 18px; 
+  cursor: pointer; 
 }
-.modal-close:hover { background:#ffffff35; }
+.modal-close:hover { background: #ffffff35; }
 
 /* MAIN */
 .pad { max-width: var(--max); margin: 0 auto; padding: 56px 20px; }

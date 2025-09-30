@@ -2,42 +2,36 @@ name: Deploy to Firebase Hosting
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   workflow_dispatch: {}
 
-permissions:
-  contents: read
+concurrency:
+  group: firebase-deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Use Node 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Show firebase.json and layout
+      # Optional: print repo tree so we can confirm /site exists in logs
+      - name: List repo
         run: |
           pwd
-          echo "----- firebase.json -----"
-          cat firebase.json
-          echo "----- site/ -----"
+          ls -la
           ls -la site || true
 
-      - name: Install Firebase CLI
-        run: npm i -g firebase-tools
-
       - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          firebase --version
-          firebase deploy --only "hosting:ittakesimagination-main" \
-            --project ittakesimagination-main \
-            --non-interactive --force
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ITI_SITE }}
+          projectId: ittakesimagination-main
+          entryPoint: .
+          channelId: live
+          firebaseToolsVersion: "13.16.0"   # pin a stable CLI
+          args: "--debug"                    # more verbose logs
+

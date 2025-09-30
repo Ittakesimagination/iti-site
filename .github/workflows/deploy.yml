@@ -17,7 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Optional: print repo tree so we can confirm /site exists in logs
       - name: List repo
         run: |
           pwd
@@ -33,5 +32,5 @@ jobs:
           entryPoint: .
           channelId: live
           firebaseToolsVersion: "13.16.0"   # pin a stable CLI
-          args: "--debug"                    # more verbose logs
+          # force: true                     # uncomment if you want to bypass warnings
 

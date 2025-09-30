@@ -1,93 +1,98 @@
-// --- Footer year ---
+// site/app.js
 document.addEventListener('DOMContentLoaded', () => {
-  const y = document.getElementById('year');
-  if (y) y.textContent = new Date().getFullYear();
-});
+  // ------------------------------
+  // Scrollspy (active link highlight)
+  // ------------------------------
+  (function scrollSpy() {
+    const menuLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+    if (!menuLinks.length) return;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('introModal');
-  const video = document.getElementById('introVideo');
-  const openBtns = document.querySelectorAll('[data-open-intro]');
-  if (!modal || !video) return;
+    const sections = menuLinks
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
 
-  const open = () => {
-    modal.setAttribute('aria-hidden', 'false');
-    video.currentTime = 0;
-    video.play().catch(() => {});
-    document.body.style.overflow = 'hidden'; // lock background scroll
-  };
+    const linkFor = (id) => menuLinks.find(a => a.getAttribute('href') === `#${id}`);
 
-  const close = () => {
-    modal.setAttribute('aria-hidden', 'true');
-    video.pause();
-    document.body.style.overflow = ''; // restore scroll
-  };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        const link = linkFor(id);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          menuLinks.forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '0px 0px -40% 0px', threshold: 0.4 });
 
-  // openers
-  openBtns.forEach(btn => btn.addEventListener('click', open));
+    sections.forEach(sec => io.observe(sec));
+  })();
 
-  // closers (X + backdrop) via explicit listeners
-  modal.querySelectorAll('[data-close-intro]').forEach(el => {
-    el.addEventListener('click', (e) => { e.preventDefault(); close(); });
-  });
+  // ------------------------------
+  // Hero Greeting Modal
+  // ------------------------------
+  (function heroModal() {
+    const modal = document.getElementById('introModal');
+    const video = document.getElementById('introVideo');
+    const openBtns = document.querySelectorAll('[data-open-intro]');
+    if (!modal || !video) return;
 
-  // also handle any dynamically-added elements with the attribute
-  document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-close-intro]');
-    if (el && modal.getAttribute('aria-hidden') === 'false') {
+    let lastFocused = null;
+
+    const focusCloseBtn = () => {
+      const btn = modal.querySelector('.modal-close');
+      if (btn) btn.focus({ preventScroll: true });
+    };
+
+    const open = () => {
+      lastFocused = document.activeElement;
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden'; // lock background scroll
+
+      try { video.currentTime = 0; } catch(_) {}
+      video.play?.().catch(() => {});
+      // give the DOM a tick, then focus the close button
+      setTimeout(focusCloseBtn, 0);
+    };
+
+    const close = () => {
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = ''; // restore scroll
+      video.pause?.();
+
+      // restore focus to the opener that triggered it
+      if (lastFocused && typeof lastFocused.focus === 'function') {
+        setTimeout(() => lastFocused.focus({ preventScroll: true }), 0);
+      }
+    };
+
+    // Openers
+    openBtns.forEach(btn => btn.addEventListener('click', (e) => {
       e.preventDefault();
-      close();
-    }
-  });
+      open();
+    }));
 
-  // Esc key closes
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') close();
-  });
-});
-
-// --- Scrollspy ---
-document.addEventListener('DOMContentLoaded', () => {
-  const navLinks = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
-  if (!navLinks.length) return;
-
-  const linkById = new Map(
-    navLinks
-      .map(a => [a.getAttribute('href').trim().replace(/^#/, ''), a])
-      .filter(([id]) => !!document.getElementById(id))
-  );
-
-  const sections = Array.from(document.querySelectorAll('main section[id]'))
-    .filter(sec => linkById.has(sec.id));
-
-  const setActive = (id) => {
-    navLinks.forEach(a => {
-      a.classList.remove('active');
-      a.removeAttribute('aria-current');
+    // Closers (X + backdrop) via explicit listeners
+    modal.querySelectorAll('[data-close-intro]').forEach(el => {
+      el.addEventListener('click', (e) => { e.preventDefault(); close(); });
     });
-    const link = linkById.get(id);
-    if (link) {
-      link.classList.add('active');
-      link.setAttribute('aria-current', 'page');
-    }
-  };
 
-  const io = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-    if (visible.length) setActive(visible[0].target.id);
-  }, {
-    root: null,
-    rootMargin: '-80px 0px -40% 0px',
-    threshold: [0.25, 0.5, 0.75, 0.9]
-  });
+    // Also catch any dynamically-added element with data-close-intro
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-close-intro]');
+      if (el && modal.getAttribute('aria-hidden') === 'false') {
+        e.preventDefault();
+        close();
+      }
+    });
 
-  sections.forEach(sec => io.observe(sec));
-
-  window.addEventListener('hashchange', () => {
-    const id = (location.hash || '').replace(/^#/, '');
-    if (id && linkById.has(id)) setActive(id);
-  });
+    // Esc key closes
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+        e.preventDefault();
+        close();
+      }
+    });
+  })();
 });
 

@@ -13,37 +13,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show repo structure
-        run: |
-          pwd
-          ls -la
-          echo "---- site dir ----"
-          ls -la site || true
-          echo "---- firebase.json ----"
-          cat firebase.json || true
-
-      - name: Write Firebase service account to file
+      # Sanity: confirm we have the right project_id in the secret (no key contents printed)
+      - name: Sanity check service account project_id
         env:
           FIREBASE_SA_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ITI_SITE }}
         run: |
-          echo "$FIREBASE_SA_JSON" > $HOME/firebase-sa.json
-          # Basic sanity check: must start with {
-          head -c 1 $HOME/firebase-sa.json | grep '{'
+          node -e 'const j=JSON.parse(process.env.FIREBASE_SA_JSON||"{}"); if(!j.project_id){process.exit(1)} console.log("service_account.project_id:", j.project_id)'
 
-      - name: Install pinned Firebase CLI
-        run: |
-          npm i -g firebase-tools@13.16.0
-          firebase --version
-
-      - name: Deploy hosting (verbose)
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
-        run: |
-          firebase projects:list || true
-          firebase use ittakesimagination-main
-          firebase deploy --only hosting --project ittakesimagination-main --non-interactive --debug
+      - name: Deploy to Firebase Hosting (official action)
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ITI_SITE }}
+          projectId: ittakesimagination-main
+          channelId: live
+          entryPoint: .
+          firebaseToolsVersion: "13.16.0"   # pin stable CLI
 

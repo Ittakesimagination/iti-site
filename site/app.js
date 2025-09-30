@@ -4,27 +4,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (y) y.textContent = new Date().getFullYear();
 });
 
-// --- Hero modal logic ---
 document.addEventListener('DOMContentLoaded', () => {
-  const openBtns = document.querySelectorAll('[data-open-intro]');
   const modal = document.getElementById('introModal');
   const video = document.getElementById('introVideo');
-  const closeEls = modal ? modal.querySelectorAll('[data-close-intro]') : [];
-
+  const openBtns = document.querySelectorAll('[data-open-intro]');
   if (!modal || !video) return;
 
   const open = () => {
     modal.setAttribute('aria-hidden', 'false');
     video.currentTime = 0;
     video.play().catch(() => {});
+    document.body.style.overflow = 'hidden'; // lock background scroll
   };
+
   const close = () => {
     modal.setAttribute('aria-hidden', 'true');
     video.pause();
+    document.body.style.overflow = ''; // restore scroll
   };
 
+  // openers
   openBtns.forEach(btn => btn.addEventListener('click', open));
-  closeEls.forEach(el => el.addEventListener('click', close));
+
+  // closers (X + backdrop) via explicit listeners
+  modal.querySelectorAll('[data-close-intro]').forEach(el => {
+    el.addEventListener('click', (e) => { e.preventDefault(); close(); });
+  });
+
+  // also handle any dynamically-added elements with the attribute
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-close-intro]');
+    if (el && modal.getAttribute('aria-hidden') === 'false') {
+      e.preventDefault();
+      close();
+    }
+  });
+
+  // Esc key closes
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') close();
   });

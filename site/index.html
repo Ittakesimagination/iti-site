@@ -20,11 +20,13 @@
 
   <!-- HERO: video background + modal greeting -->
   <header class="hero-video">
-    <video class="hero-bg" playsinline autoplay muted loop poster="images/hero-poster.jpg">
-      <source src="videos/hero.webm" type="video/webm" />
-      <source src="videos/hero.mp4" type="video/mp4" />
-    </video>
-
+  <video class="hero-bg" playsinline autoplay muted loop poster="images/hero-poster.jpg">
+    <source src="videos/hero.webm?v=1" type="video/webm" />
+    <source src="videos/hero.mp4?v=1" type="video/mp4" />
+    <!-- Fallback image for accessibility -->
+    <img src="images/hero-poster.jpg" 
+         alt="Judge S.Q.U.I.R.R.E.L.™ and The Weil 1™ pop out of the Nutwork, grinning like they own the joint, shouting: ‘Welcome to It Takes Imagination — the ride starts here!’" />         
+  </video>
     <div class="hero-overlay">
       <nav class="nav">
         <a class="brand" href="/">It Takes Imagination™</a>
@@ -48,15 +50,15 @@
     </div>
 
     <!-- Modal for greeting with audio -->
-    <div class="modal" id="introModal" aria-hidden="true">
-      <div class="modal-backdrop" data-close-intro></div>
-      <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Welcome from S.Q.U.I.R.R.E.L. & The Weil 1">
-        <button class="modal-close" title="Close" aria-label="Close" data-close-intro>✕</button>
-        <video id="introVideo" controls playsinline preload="metadata">
-          <source src="videos/intro.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </div>
+<div class="modal" id="introModal" aria-hidden="true">
+  <div class="modal-backdrop" data-close-intro></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-label="Welcome from S.Q.U.I.R.R.E.L. & The Weil 1">
+    <button class="modal-close" title="Close" aria-label="Close" data-close-intro>✕</button>
+    <video id="introVideo" controls playsinline preload="metadata">
+      <source src="videos/intro.mp4?v=1" type="video/mp4" />
+    </video>
+  </div>
+</div>
   </header>
 
   <!-- Placeholder sections to scroll to later -->
